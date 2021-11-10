@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton'
 import "./App.css";
+import { Router } from "@mui/icons-material";
 
 export default function App() {
   const Initial_Movie = [
@@ -46,6 +47,25 @@ export default function App() {
       poster:"https://m.media-amazon.com/images/M/MV5BNjUwMjAwYWEtNzMxZS00YTYwLTk4ZTAtZGI4NmEzNDY3M2UzXkEyXkFqcGdeQXVyMTI0NTM3MjI3._V1_.jpg"
     }
   ];
+  return(
+    <div className="App">
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/movie">Movies</Link>
+        <Link to="/addMovie">Add Movie</Link>
+      </nav>
+      <Switch>
+        <Router path="/movies">
+          <MovieList movies={movies} />
+          </Router>
+          <Router path="/addMovie">
+            <AddMovie movies={movies} setMovie={setMovie} />
+          </Router>
+
+      </Switch>
+    </div>
+  )
+  function AddMovie({movies,setMovie}){
   const [name,setName] = useState("");
   const [poster,setPoster]=useState("");
   const [rating,setRating]=useState("");
@@ -76,7 +96,7 @@ export default function App() {
     </div>
   );
 }
-
+}
 function Counter() {
   const [like, setLike] = useState(0);
   const [dislike, setDislike] = useState(0);

@@ -53,3 +53,9 @@
 .movie-poster:hover{
   transform: scale(1.1);
 }
+nav{
+  font-size: 20px;
+  display: flex;
+  gap:24px;
+  margin: 20px;
+}

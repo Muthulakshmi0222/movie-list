@@ -1,9 +1,10 @@
-import { useState } from "react";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton'
+import {  Link } from "react-router-dom";
 import "./App.css";
-import { Router } from "@mui/icons-material";
+import { MovieList } from "./MovieList";
+import {useState} from "react";
+
 
 export default function App() {
   const Initial_Movie = [
@@ -47,33 +48,41 @@ export default function App() {
       poster:"https://m.media-amazon.com/images/M/MV5BNjUwMjAwYWEtNzMxZS00YTYwLTk4ZTAtZGI4NmEzNDY3M2UzXkEyXkFqcGdeQXVyMTI0NTM3MjI3._V1_.jpg"
     }
   ];
+  const [movies,setMovie] = useState(Initial_Movie);
   return(
     <div className="App">
       <nav>
         <Link to="/">Home</Link>
         <Link to="/movie">Movies</Link>
         <Link to="/addMovie">Add Movie</Link>
+        <Link>Color</Link>
       </nav>
-      <Switch>
-        <Router path="/movies">
+      {/* <Switch>
+        <Route path="/movies">
           <MovieList movies={movies} />
-          </Router>
-          <Router path="/addMovie">
+          </Route>
+          <Route path="/addMovie">
             <AddMovie movies={movies} setMovie={setMovie} />
-          </Router>
+          </Route>
 
-      </Switch>
+      </Switch> */}
+
+      <AddMovie movies={movies} setMovie={setMovie} />
+      <MovieList movies={movies} />
     </div>
   )
-  function AddMovie({movies,setMovie}){
+  
+  
+}
+
+function AddMovie({movies,setMovie}){
   const [name,setName] = useState("");
   const [poster,setPoster]=useState("");
   const [rating,setRating]=useState("");
   const [summary,setSummary]=useState("");
 
-  const [movies,setMovie] = useState(Initial_Movie);
+  
   const addMovie=()=>{
-    console.log("Adding Movie");
     const newMovie={
       name:name,
       poster:poster,
@@ -82,78 +91,41 @@ export default function App() {
     }
     setMovie([...movies,newMovie]);
   }
-  return (
-    <div className="App">
-      <div>
+  return(
+    <div className="add-movie-form">
       <TextField  value={name} onChange={(event)=> setName(event.target.value)} placeholder="Movie name" id="standard-basic" label="Standard" variant="standard" />
       <TextField value={poster} onChange={(event)=> setPoster(event.target.value)} placeholder="poster"  id="standard-basic" label="Standard" variant="standard" />
       <TextField value={poster} onChange={(event)=> setRating(event.target.value)} placeholder="poster" id="standard-basic" label="Standard" variant="standard" />
       <TextField value={summary} onChange={(event)=> setSummary(event.target.value)} placeholder="summary" id="standard-basic" label="Standard" variant="standard" />
       <Button onClick={addMovie} variant="text">Add Movie</Button>
-        {/* <button ></button> */}
-      </div>
-      <MovieList movies={movies} />
     </div>
-  );
-}
-}
-function Counter() {
-  const [like, setLike] = useState(0);
-  const [dislike, setDislike] = useState(0);
-  return (
-    <div className="counter-container">
-      <IconButton  
-      className="likes-dislike" 
-      onClick={() => setLike(like + 1)} 
-      aria-label="delete" 
-      color="primary">
-      👍{like}
-    </IconButton>
-    <IconButton 
-    className="likes-dislikes"
-    onClick={() => setDislike(dislike + 1)}
-    aria-label="delete"
-     color="primary">
-    👎{dislike}
-</IconButton>
-    </div>
-  );
-}
-//Movie List 
-function MovieList({ movies }) {
-  return (
-    <section className="movie-list">
-      {movies.map(({name, rating, summary, poster}) => (
-        <Movie name={name} rating={rating} summary={summary} poster={poster} />
+  )
+
+
+
+function AddColor(){
+  const [color,setColor] = useState("red");
+  const styles = {backgroundColor:color};
+  // const colors=["teal" , "pink" , "blue"];
+  const [colors,setColors]=useState(["teal" , "pink" , "blue"])
+  return(
+    <div>
+      <input 
+      value={color}
+      style={styles} 
+      onChange={(event)=> setColor(event.target.value) } 
+      plsceholder="Enter a color:" />
+      <button onClick={()=>setColors([...colors,color])}>Add Color</button>
+      {colors.map((clr,index)=>(
+        <ColorBox key={index} color={clr} />
       ))}
-    </section>
-  );
-}
-//boolean value to show show summary 
-function Movie({ name, rating, summary, poster }) {
-  const [show, setShow] = useState(true);
-  //Conditional styling=>
-  const styles = {
-    color: rating < 7 ? "crimson" : "green",
-    fontWeight: "bold",
-  };
-  const summaryStyles = {
-    display: show ? "block" : "none"
-  };
-  return (
-    <div className="movie_container">
-      <img src={poster} alt="Movie Image" className="movie-poster" />
-      <div className="Movie-specs">
-        <h3 className="Movie-name">{name}</h3>
-        <p className="movie-rating" style={styles}>⭐{rating}</p>
-      </div>
-      {/* //show the content value */}
-      <button onClick={() => setShow(!show)} className="movie-show-button">
-        {show ? "Hide" : "Show"} description
-      </button>
-      {show ? <p className="movie-summary" style={summaryStyles}>{summary}</p> : ""}
-      <Counter />
       
     </div>
-  );
+  )
+}
+function ColorBox({color}){
+  const styles = {backgroundColor:color,
+                     height:"25px"}
+      return <div style={styles}></div>
+}
 }

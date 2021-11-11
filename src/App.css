@@ -59,3 +59,7 @@ nav{
   gap:24px;
   margin: 20px;
 }
+.add-movie-form{
+  display: flex;
+  flex-direction: column;
+}

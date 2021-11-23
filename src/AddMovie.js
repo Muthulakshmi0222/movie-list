@@ -1,61 +1,57 @@
+import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useState } from "react";
+import { useHistory  } from "react-router-dom";
 
-export function AddMovie({ movies, setMovie }) {
+export function AddMovie() {
+  const history = useHistory();
   const [name, setName] = useState("");
-  const [poster, setPoster] = useState("");
-  const [rating, setRating] = useState("");
+  const [pic, setPoster] = useState("");
+  const [ratings, setRating] = useState("");
   const [summary, setSummary] = useState("");
   const [trailer, setTrailer] = useState("");
 
-
   const addMovie = () => {
-    const newMovie = {
-      name: name,
-      poster: poster,
-      rating: rating,
-      summary: summary,
-      trailer: trailer,
-    };
-    setMovie([...movies, newMovie]);
+    // console.log("Adding movies...", name, pic, ratings, summary);
+    const newMovie = { name, pic, ratings, summary, trailer };
+
+    // console.log(newMovie);
+    // setMovies([...movies, newMovie]);
+    fetch(`
+    https://6166c4df13aa1d00170a6706.mockapi.io/movies`,{
+          method:"POST",
+          body:JSON.stringify(newMovie),
+          headers:{
+            'Content-Type' : 'application/json',
+          },
+    }).then(() => history.push("/movies"));
+
+
+    
   };
+
   return (
     <div className="add-movie-form">
-      <TextField value={name} onChange={(event) => setName(event.target.value)} placeholder="Movie name" id="standard-basic" label="Standard" variant="standard" />
-      <TextField value={poster} onChange={(event) => setPoster(event.target.value)} placeholder="poster" id="standard-basic" label="Standard" variant="standard" />
-      <TextField value={rating} onChange={(event) => setRating(event.target.value)} placeholder="rating" id="standard-basic" label="Standard" variant="standard" />
-      <TextField value={summary} onChange={(event) => setSummary(event.target.value)} placeholder="summary" id="standard-basic" label="Standard" variant="standard" />
-      <TextField value={trailer} onChange={(event) => setTrailer(event.target.value)} placeholder="trailer" id="standard-basic" label="Standard" variant="standard" />
-      <Button onClick={addMovie} variant="text">Add Movie</Button>
+      <TextField value={name} onChange={(event) => setName(event.target.value)}
+        label="Name" variant="filled" />
+
+      <TextField value={pic} onChange={(event) => setPoster(event.target.value)}
+        label="Image" variant="filled" />
+
+      <TextField value={ratings} onChange={(event) => setRating(event.target.value)}
+        label="Rating" variant="filled" />
+
+      <TextField value={summary} onChange={(event) => setSummary(event.target.value)}
+        label="Summary" variant="filled" />
+
+<TextField value={trailer} onChange={(event) => setTrailer(event.target.value)}
+        label="Trailer" variant="filled" />
+
+      <Button className="add-button" onClick={addMovie} variant="contained" color="secondary">
+        Save
+      </Button>
+
     </div>
+
   );
-
-
-
-  // function Addcolor(){
-  //   const [color,setColor] = useState("red");
-  //   const styles = {backgroundColor:color};
-  //   // const colors=["teal" , "pink" , "blue"];
-  //   const [colors,setColors]=useState(["teal" , "pink" , "blue"])
-  //   return(
-  //     <div>
-  //       <input 
-  //       value={color}
-  //       style={styles} 
-  //       onChange={(event)=> setColor(event.target.value) } 
-  //       plsceholder="Enter a color:" />
-  //       <button onClick={()=>setColors([...colors,color])}>Add Color</button>
-  //       {colors.map((clr,index)=>(
-  //         <ColorBox key={index} color={clr} />
-  //       ))}
-  //     </div>
-  //   )
-  // }
-  // function ColorBox({color}){
-  //   const styles = {backgroundColor:color,
-  //                      height:"25px"}
-  //       return <div style={styles}></div>
-  // }
-  // }
 }

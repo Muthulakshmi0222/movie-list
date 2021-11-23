@@ -21,9 +21,6 @@ export function Movie({ name, ratings, summary, pic, id,deleteButton,editButton 
     fontWeight: "bold",
   };
 
-  const summaryStyles = {
-    display: show ? "block" : "none",
-  };
   return (
     <Card className="movie-container">
       <img

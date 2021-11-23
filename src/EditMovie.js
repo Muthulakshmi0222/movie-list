@@ -25,8 +25,7 @@ export function EditMovie() {
   const [trailer, setTrailer] = useState(movie.trailer);
 
   const editMovie = () => {
-    // console.log("Adding movies...", name, pic, ratings, summary);
-    const UpdatedMovie = { 
+      const UpdatedMovie = { 
       name, 
       pic, 
       ratings, 
